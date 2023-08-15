@@ -1,0 +1,13 @@
+version: '3'
+services:
+  stac-generator-fast-api-writer:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    platform: linux/amd64
+    network_mode: host
+    env_file:
+      - .env
+    deploy:
+      mode: replicated
+      replicas: 20
