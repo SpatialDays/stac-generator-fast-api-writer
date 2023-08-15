@@ -28,12 +28,17 @@ def random_step_time(min_time=5000, max_time=10000, step_size=200):
 
 def update_operation(url, payload):
     logging.info(f"Updating {url}")
+    random_timeout = random_step_time(min_time=100, max_time=1000, step_size=100)
+    logging.info(f"Waiting {random_timeout} milliseconds before updating {url}")
+    time.sleep(random_timeout / 1000)
+    logging.info(f"Timeout done. Updating {url}")
     response = requests.put(url, data=json.dumps(payload),
                             headers={"Content-Type": "application/json"})
     if response.status_code == 200:
         logging.info(f"{url} updated")
     else:
         logging.error(f"{url} could not be updated")
+        logging.error(f"Response: {response.text}, status code: {response.status_code}")
         raise Exception(f"{url} could not be updated")
 
     return response
@@ -41,12 +46,17 @@ def update_operation(url, payload):
 
 def create_operation(url, payload):
     logging.info(f"Creating {url}")
+    random_timeout = random_step_time(min_time=100, max_time=1000, step_size=100)
+    logging.info(f"Waiting {random_timeout} milliseconds before creating {url}")
+    time.sleep(random_timeout / 1000)
+    logging.info(f"Timeout done. Creating {url}")
     response = requests.post(url, data=json.dumps(payload),
                              headers={"Content-Type": "application/json"})
     if response.status_code == 200:
         logging.info(f"{url} created")
     else:
         logging.error(f"{url} could not be created")
+        logging.error(f"Response: {response.text}, status code: {response.status_code}")
         raise Exception(f"{url} could not be created")
 
     return response
