@@ -1,6 +1,6 @@
 import logging
 
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.DEBUG, format='%(asctime)s - %(levelname)s - %(message)s')
 
 import os
 import json
@@ -27,6 +27,7 @@ def random_step_time(min_time=5000, max_time=10000, step_size=200):
 
 
 def update_operation(url, payload):
+    logging.info(f"Updating {url}")
     response = requests.put(url, data=json.dumps(payload),
                             headers={"Content-Type": "application/json"})
     if response.status_code == 200:
@@ -39,6 +40,7 @@ def update_operation(url, payload):
 
 
 def create_operation(url, payload):
+    logging.info(f"Creating {url}")
     response = requests.post(url, data=json.dumps(payload),
                              headers={"Content-Type": "application/json"})
     if response.status_code == 200:
@@ -88,7 +90,7 @@ if __name__ == "__main__":
                         else:
                             time_for_next_retry_ms = random_step_time(5000, max_time=10000 * i, step_size=200 * i)
                             logging.info(
-                                f"Retrying update of {item_url_on_write_server_with_id} in {i + 1} milliseconds")
+                                f"Retrying update of {item_url_on_write_server_with_id} in {time_for_next_retry_ms} milliseconds")
                             time.sleep(time_for_next_retry_ms / 1000)
 
             elif response.status_code == 404:
@@ -106,7 +108,7 @@ if __name__ == "__main__":
                         else:
                             time_for_next_retry_ms = random_step_time(5000, max_time=10000 * i, step_size=200 * i)
                             logging.info(
-                                f"Retrying create of {item_url_on_write_server} in {i + 1} milliseconds")
+                                f"Retrying create of {item_url_on_write_server} in {time_for_next_retry_ms} milliseconds")
                             time.sleep(time_for_next_retry_ms / 1000)
             else:
                 logging.error(f"Error checking if {item_url_on_read_server} exists")
