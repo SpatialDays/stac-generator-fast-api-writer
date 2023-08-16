@@ -12,6 +12,7 @@ The microservice consumes a Redis list items published by the stac-generator and
 | REDIS_HOST              | Redis host                                                       |
 | REDIS_PORT              | Redis port                                                       |
 | REDIS_INPUT_LIST_NAME   | Redis input list name                                            |
+| REDIS_OUTPUT_LIST_NAME  | Redis output list name                                           |
 | STAC_FASTAPI_READ_HOST  | STAC API host for checking if the STAC Items are already present |
 | STAC_FASTAPI_WRITE_HOST | STAC API host for writing the STAC Items                         |
 | NUM_RETRIES             | Number of retries for writing to STAC-FastAPI                    |

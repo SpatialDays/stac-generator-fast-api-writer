@@ -17,6 +17,7 @@ load_dotenv()
 REDIS_HOST: str = os.getenv("REDIS_HOST")
 REDIS_PORT: str = os.getenv("REDIS_PORT")
 REDIS_INPUT_LIST_NAME: str = os.getenv("REDIS_INPUT_LIST_NAME")
+REDIS_OUTPUT_LIST_NAME: str = os.getenv("REDIS_OUTPUT_LIST_NAME")
 STAC_FASTAPI_READ_HOST: str = os.getenv("STAC_FASTAPI_READ_HOST")
 STAC_FASTAPI_WRITE_HOST: str = os.getenv("STAC_FASTAPI_WRITE_HOST")
 NUM_RETRIES: int = int(os.getenv("NUM_RETRIES", 5))
@@ -123,4 +124,5 @@ if __name__ == "__main__":
             else:
                 logging.error(f"Error checking if {item_url_on_read_server} exists")
                 raise Exception(f"Error checking if {item_url_on_read_server} exists, status code {response.status_code}")
+            redis_client.rpush(REDIS_OUTPUT_LIST_NAME, item_payload)
             logging.info("Timing end")
